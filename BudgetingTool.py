@@ -1,3 +1,10 @@
+'''
+Name: Danica Chakroborty
+Date: December 20th
+Project: Simple budgeting tool, created for fun as a side project
+'''
+
+
 def get_income():
     
     while True:
