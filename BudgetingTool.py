@@ -55,13 +55,37 @@ def display_breakdown(income, expenses, total_expenses, net_income):
     else:
         print("Your budget is perfectly balanced, yippee!!")
 
+def export_to_csv(income, expenses, total_expenses, net_income):
+    #open file named my_budget.csv in write mode
+    try:
+        with open('budget.csv', 'w') as file:
+            # csv formatting
+            file.write("Budget Summary\n")
+            file.write("-----------------\n\n")
+            file.write(f"Monthly Income: ${income:.2f}\n\n") # income
+            file.write("EXPENSES:\n")
+            file.write("---------\n")
+            for category, amount in expenses.items():
+                percentage = (amount / income * 100) if income > 0 else 0
+                file.write(f"{category}: ${amount:.2f} ({percentage:.1f}%)\n") # all expenses with percentage
+            file.write("\nSUMMARY:\n")
+            file.write("--------\n")
+            file.write(f"Total Expenses: ${total_expenses:.2f}\n") # expense total
+            file.write(f"Net Income: ${net_income:.2f}\n") #net income
+        
+        print("\nYour budget has been saved to 'budget.csv'!")
+    except:
+        print("\nThere was an error saving your budget.")
+
 def main():
-    
     print("Welcome to your personal budgeting tool!")
     income = get_income()
     expenses = get_expenses()
     net_income, total_expenses = calculate_net_income(income, expenses)
     display_breakdown(income, expenses, total_expenses, net_income)
+    export_choice = input("\nWould you like to export this budget to a CSV file? (yes/no): ").lower()
+    if export_choice.startswith('y'):
+        export_to_csv(income, expenses, total_expenses, net_income)
 
 if __name__ == "__main__":
     main()
